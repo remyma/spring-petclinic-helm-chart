@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "petclinic-chart.fullname" . }}
+  name: {{ template "discovery-server.fullname" . }}
   labels:
-    app: {{ template "petclinic-chart.name" . }}
-    chart: {{ template "petclinic-chart.chart" . }}
+    app: {{ template "discovery-server.name" . }}
+    chart: {{ template "discovery-server.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
@@ -15,5 +15,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{ template "petclinic-chart.name" . }}
+    app: {{ template "discovery-server.name" . }}
     release: {{ .Release.Name }}
