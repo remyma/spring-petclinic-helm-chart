@@ -12,7 +12,7 @@ data:
     spring:
       cloud:
         config:
-          uri: http://{{ .Release.Name }}-config-server.petclinic.svc.cluster.local
+          uri: {{ template "config-server.url" . }}
       application:
         name: discovery-server
     ---
@@ -20,7 +20,7 @@ data:
       profiles: docker
       cloud:
         config:
-          uri: http://{{ .Release.Name }}-config-server.petclinic.svc.cluster.local
+          uri: {{ template "config-server.url" . }}
 
 
         
