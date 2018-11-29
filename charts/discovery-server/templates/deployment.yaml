@@ -27,8 +27,16 @@ spec:
             - name: http
               containerPort: 8761
               protocol: TCP
+          volumeMounts:
+            - name: config-volume
+              mountPath: /bootstrap.yml
+              subPath: bootstrap.yml
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ template "discovery-server.fullname" . }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
