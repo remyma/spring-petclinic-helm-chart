@@ -24,7 +24,7 @@ spec:
           image: "mszarlinski/spring-petclinic-config-server"
           ports:
             - name: http
-              containerPort: 8888
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -34,4 +34,17 @@ spec:
             httpGet:
               path: /health
               port: http
+          volumeMounts:
+            - name: bootstrap-volume
+              mountPath: /bootstrap.yml
+              subPath: bootstrap.yml
+            - name: configs-volume
+              mountPath: /config
+      volumes:
+        - name: bootstrap-volume
+          configMap:
+            name: {{ template "discovery-server.fullname" . }}-bootstrap
+        - name: configs-volume
+          configMap:
+            name: {{ template "discovery-server.fullname" . }}-configs
 
