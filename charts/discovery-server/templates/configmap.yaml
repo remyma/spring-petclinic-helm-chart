@@ -10,18 +10,10 @@ metadata:
 data:
   bootstrap.yml: |-
     spring:
+      profiles: docker
       cloud:
         config:
           uri: {{ template "config-server.url" . }}
       application:
         name: discovery-server
-    ---
-    spring:
-      profiles: docker
-      cloud:
-        config:
-          uri: {{ template "config-server.url" . }}
-
-
-        
 
