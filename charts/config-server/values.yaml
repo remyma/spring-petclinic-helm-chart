@@ -4,3 +4,10 @@ service:
   type: ClusterIP
   port: 80
 
+resources: 
+  limits:
+   cpu: 1
+   memory: 2048Mi
+  requests:
+   cpu: 2m
+   memory: 2048Mi

@@ -28,21 +28,25 @@ spec:
               containerPort: 8080
               protocol: TCP
           livenessProbe:
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
             httpGet:
               path: /health
               port: http
           readinessProbe:
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
             httpGet:
               path: /health
               port: http
           volumeMounts:
-            - name: config-volume
+            - name: bootstrap-volume
               mountPath: /bootstrap.yml
               subPath: bootstrap.yml
           resources:
 {{ toYaml .Values.resources | indent 12 }}
       volumes:
-        - name: config-volume
+        - name: bootstrap-volume
           configMap:
             name: {{ template "customers-service.fullname" . }}
     {{- with .Values.nodeSelector }}

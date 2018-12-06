@@ -40,6 +40,8 @@ spec:
               subPath: bootstrap.yml
             - name: configs-volume
               mountPath: /config
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
       volumes:
         - name: bootstrap-volume
           configMap:
