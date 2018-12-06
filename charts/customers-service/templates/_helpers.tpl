@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "config-server.name" -}}
+{{- define "customers-service.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "config-server.fullname" -}}
+{{- define "customers-service.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,18 +27,18 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "config-server.chart" -}}
+{{- define "customers-service.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{/*
+Create a default fully qualified app name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
 {{- define "config-server.url" -}}
 {{- printf "http://%s-%s.%s.svc.cluster.local" .Release.Name "config-server" .Release.Namespace -}}
 {{- end -}}
 
 {{- define "discovery-server.url" -}}
 {{- printf "http://%s-%s.%s.svc.cluster.local" .Release.Name "discovery-server" .Release.Namespace -}}
-{{- end -}}
-
-{{- define "tracing-server.url" -}}
-{{- printf "http://%s-%s.%s.svc.cluster.local" .Release.Name "tracing-server" .Release.Namespace -}}
 {{- end -}}

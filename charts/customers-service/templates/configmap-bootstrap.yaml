@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "customers-service.fullname" . }}
+  labels:
+    app: {{ template "customers-service.name" . }}
+    chart: {{ template "customers-service.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  bootstrap.yml: |-
+    spring:
+      cloud:
+        config:
+          uri: http://localhost:8888
+      
+    ---
+    spring:
+      profiles: docker
+      cloud:
+        config:
+          uri: {{ template "config-server.url" . }}
+      application:
+        name: customers-service
+
+
+
+        
+

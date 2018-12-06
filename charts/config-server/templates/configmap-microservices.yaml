@@ -59,23 +59,16 @@ data:
             enabled: true
   customers-service.yml: |-
     spring:
-      profiles: default
+      profiles: docker
+      zipkin:
+        baseUrl: {{ template "tracing-server.url" . }}
     eureka:
       instance:
         # enable to register multiple app instances with a random server port
         instance-id: ${spring.application.name}:${random.uuid}
-
-    ---
-    spring:
-      profiles: docker
-      zipkin:
-        baseUrl: http://tracing-server:9411
-    server:
-      port: 8081
-    eureka:
       client:
         serviceUrl:
-          defaultZone: http://discovery-server:8761/eureka/
+          defaultZone: {{ template "discovery-server.url" . }}/eureka/
   discovery-server.yml: |-
     eureka:
       instance:
@@ -89,5 +82,14 @@ data:
 
   hystrix-dashboard.yml: |-
   tracing-server.yml: |-
+    spring:
+      profiles: docker
+    eureka:
+      instance:
+        # enable to register multiple app instances with a random server port
+        instance-id: ${spring.application.name}:${random.uuid}
+      client:
+        serviceUrl:
+          defaultZone: http://discovery-server:8761/eureka/
   vets-service.yml: |-
   visits-service.yml: |-
