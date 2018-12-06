@@ -92,4 +92,32 @@ data:
         serviceUrl:
           defaultZone: http://discovery-server:8761/eureka/
   vets-service.yml: |-
+    vets:
+      cache:
+        ttl: 60
+        heap-size: 100
+    spring:
+      profiles: docker
+      zipkin:
+        baseUrl: {{ template "tracing-server.url" . }}
+    eureka:
+      instance:
+        # enable to register multiple app instances with a random server port
+        instance-id: ${spring.application.name}:${random.uuid}
+      client:
+        serviceUrl:
+          defaultZone: {{ template "discovery-server.url" . }}/eureka/
+
   visits-service.yml: |-
+    spring:
+      profiles: docker
+      zipkin:
+        baseUrl: {{ template "tracing-server.url" . }}
+    eureka:
+      instance:
+        # enable to register multiple app instances with a random server port
+        instance-id: ${spring.application.name}:${random.uuid}
+      client:
+        serviceUrl:
+          defaultZone: {{ template "discovery-server.url" . }}/eureka/
+
