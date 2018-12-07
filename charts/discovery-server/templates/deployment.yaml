@@ -28,10 +28,14 @@ spec:
               containerPort: 8080
               protocol: TCP
           livenessProbe:
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
             httpGet:
               path: /health
               port: http
           readinessProbe:
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
             httpGet:
               path: /health
               port: http

@@ -9,7 +9,40 @@ metadata:
     heritage: {{ .Release.Service }}
 data:
   admin-server.yml: |-
+    spring:
+      profiles: docker
+    eureka:
+      client:
+        serviceUrl:
+          defaultZone: {{ template "discovery-server.url" . }}/eureka/
   api-gateway.yml: |-
+    zuul:
+      prefix: /api
+      ignoredServices: '*'
+      routes:
+        vets-service: /vet/**
+        visits-service: /visit/**
+        customers-service: /customer/**
+        api-gateway: /gateway/**
+
+    server:
+      compression:
+        enabled: true
+        mime-types: application/json,text/css,application/javascript
+        min-response-size: 2048
+
+    # Internationalization
+    spring.messages.basename: messages/messages
+
+    spring:
+      profiles: docker
+      zipkin:
+        baseUrl: {{ template "tracing-server.url" . }}
+    eureka:
+      client:
+        serviceUrl:
+          defaultZone: {{ template "discovery-server.url" . }}/eureka/
+
   application.yml: |-
     # COMMON APPLICATION PROPERTIES
 
@@ -81,6 +114,12 @@ data:
           defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
   hystrix-dashboard.yml: |-
+    spring:
+      profiles: docker
+    eureka:
+      client:
+        serviceUrl:
+          defaultZone: {{ template "discovery-server.url" . }}/eureka/
   tracing-server.yml: |-
     spring:
       profiles: docker
@@ -90,7 +129,7 @@ data:
         instance-id: ${spring.application.name}:${random.uuid}
       client:
         serviceUrl:
-          defaultZone: http://discovery-server:8761/eureka/
+          defaultZone: {{ template "discovery-server.url" . }}/eureka/
   vets-service.yml: |-
     vets:
       cache:

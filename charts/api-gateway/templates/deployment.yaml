@@ -1,22 +1,22 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "visits-service.fullname" . }}
+  name: {{ template "api-gateway.fullname" . }}
   labels:
-    app: {{ template "visits-service.name" . }}
-    chart: {{ template "visits-service.chart" . }}
+    app: {{ template "api-gateway.name" . }}
+    chart: {{ template "api-gateway.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "visits-service.name" . }}
+      app: {{ template "api-gateway.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "visits-service.name" . }}
+        app: {{ template "api-gateway.name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:
@@ -40,15 +40,15 @@ spec:
               path: /health
               port: http
           volumeMounts:
-            - name: config-volume
+            - name: bootstrap-volume
               mountPath: /bootstrap.yml
               subPath: bootstrap.yml
           resources:
 {{ toYaml .Values.resources | indent 12 }}
       volumes:
-        - name: config-volume
-          configMap:
-            name: {{ template "visits-service.fullname" . }}
+          - name: bootstrap-volume
+            configMap:
+              name: {{ template "api-gateway.fullname" . }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
